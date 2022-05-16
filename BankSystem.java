@@ -5,7 +5,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class test1 {
+public class BankSystem {
 
     // function to capitalize the first letter of a string
     public static String capitalize(String str) {
@@ -31,16 +31,16 @@ public class test1 {
 
         int ch;
         do {
-            System.out.println("***ATM***");
+            System.out.println("***Bank System***");
             System.out.println("1. Customer \n2. Manager \n3. Exit");
             System.out.print("Enter your choice: ");
             ch = sc.nextInt();
             switch (ch) {
-                case 1:
+                case 1: // customer options
                     int ch1;
                     do {
                         System.out.println("Hello, please choose an actions from the options below");
-                        System.out.println("1. Open an account \n2. Manage your account \n3. Delete your account \n4.Exit");
+                        System.out.println("1. Open an account \n2. Manage your account \n3. Delete your account \n4.Go back");
                         System.out.print("Enter your choice: ");
                         ch1 = sc.nextInt();
                         int ch2;
@@ -62,7 +62,7 @@ public class test1 {
                                 System.out.print("Enter your last name: ");
                                 ln = sc.next();
                                 switch (ch2) {
-                                    case 1:
+                                    case 1: // open account in BCA
                                         for (int i = 0; i < b1.getNum0fCustomer(); i++) {
                                             // to make sure that a customer doesn't open multiple accounts in the same bank
                                             if (b1.getCustomer(i).getFirstName().equals(capitalize(fn)) && b1.getCustomer(i).getLastName().equals(capitalize(ln))) {
@@ -90,11 +90,11 @@ public class test1 {
                                                 System.out.print("Confirm your pin: ");
                                                 pin_confirmed = sc.nextInt();
                                             }
-                                            b1.addCustomer(fn, ln);
-                                            b1.getCustomer(b1.getNum0fCustomer() - 1).setAccount(new Account(0.00, pin));
+                                            b1.addCustomer(fn, ln); // use the bank class method to add a customer
+                                            b1.getCustomer(b1.getNum0fCustomer() - 1).setAccount(new Account(0.00, pin)); // set an account for the last customer that was added
                                         }
                                         break;
-                                    case 2:
+                                    case 2: // open account in BNI
                                         for (int i = 0; i < b2.getNum0fCustomer(); i++) {
                                             if (b2.getCustomer(i).getFirstName().equals(capitalize(fn)) && b2.getCustomer(i).getLastName().equals(capitalize(ln))) {
                                                 found = true;
@@ -124,7 +124,7 @@ public class test1 {
                                             b2.getCustomer(b2.getNum0fCustomer() - 1).setAccount(new Account(0.00, pin));
                                         }
                                         break;
-                                    case 3:
+                                    case 3: // open account in MCB
                                         for (int i = 0; i < b3.getNum0fCustomer(); i++) {
                                             if (b3.getCustomer(i).getFirstName().equals(capitalize(fn)) && b3.getCustomer(i).getLastName().equals(capitalize(ln))) {
                                                 found = true;
@@ -154,9 +154,9 @@ public class test1 {
                                             b3.getCustomer(b3.getNum0fCustomer() - 1).setAccount(new Account(0.00, pin));
                                         }
                                         break;
-                                    case 4:
+                                    case 4: // go back to the previous screen
                                         break;
-                                    default:
+                                    default: // error handling in case the customer enters a wrong number
                                         System.out.println("Unexpected value: " + ch2);
                                 }
                                 break;
@@ -165,7 +165,7 @@ public class test1 {
                                 for (int i = 0; i < banks.size(); i++) {
                                     System.out.println((i + 1) + ": " + banks.get(i));
                                 }
-                                System.out.println("4: Exit");
+                                System.out.println("4: Go back");
                                 System.out.print("Enter your choice: ");
                                 ch2 = sc.nextInt();
                                 int the_pin;
@@ -175,33 +175,34 @@ public class test1 {
                                 ln = sc.next();
                                 found = false;
                                 switch (ch2) {
-                                    case 1:
+                                    case 1: // manage a BCA account
                                         for (int i = 0; i < b1.getNum0fCustomer(); i++) {
+                                            // check if the customer has an account in this bank
                                             if (b1.getCustomer(i).getFirstName().equals(capitalize(fn)) && b1.getCustomer(i).getLastName().equals(capitalize(ln))) {
                                                 found = true;
-                                                System.out.print("Enter your 4 digits pin: ");
+                                                System.out.print("Enter your 4 digits pin: "); // check for the pin
                                                 the_pin = sc.nextInt();
                                                 int y = 2;
-                                                while (y > 0 && b1.getCustomer(i).getAccount().getPin() != the_pin) {
+                                                while (y > 0 && b1.getCustomer(i).getAccount().getPin() != the_pin) { // giving a maximum of three attempts for entering the pin
                                                     y--;
-                                                    System.out.print("The pin is incorrect, please reenter (" + (y+1) + " attempts remaining)");
+                                                    System.out.print("The pin is incorrect, please reenter (" + (y+1) + " attempts remaining): ");
                                                     the_pin = sc.nextInt();
                                                 }
                                                 if (y == 0) {
-                                                    b1.getCustomer(i).getAccount().setFrozen(true);
+                                                    b1.getCustomer(i).getAccount().setFrozen(true); // if the 3 attempts are over, the account will be frozen for wrong pin
                                                     System.out.println("You entered the wrong pin 3 times your account has been frozen");
                                                 }
                                                 if (b1.getCustomer(i).getAccount().getPin() == the_pin) {
                                                     int ch3;
-                                                    System.out.println("Your balance is: " + b1.getCustomer(i).getAccount().getBalance() + "$");
-                                                    System.out.println("1. Deposit \n2. Withdraw \n3. Exit");
+                                                    System.out.println("Your balance is: " + b1.getCustomer(i).getAccount().getBalance() + "$"); // the balance is shown
+                                                    System.out.println("1. Deposit \n2. Withdraw \n3. Go back");
                                                     System.out.print("Enter your choice: ");
                                                     ch3 = sc.nextInt();
                                                     double amount;
                                                     switch (ch3) {
                                                         case 1:
                                                             System.out.print("Enter the amount you want to deposit: ");
-                                                            amount = sc.nextDouble();
+                                                            amount = sc.nextDouble(); // the customer enters the amount he wants to deposit, it has to be more than 0
                                                             if (b1.getCustomer(i).getAccount().deposit(amount)) {
                                                                 System.out.println("You have successfully deposited " + amount + "$ into your account");
                                                                 System.out.println("Your new balance is " + b1.getCustomer(i).getAccount().getBalance() + "$");
@@ -209,9 +210,9 @@ public class test1 {
                                                             break;
                                                         case 2:
                                                             System.out.print("Enter the amount you want to withdraw: ");
-                                                            amount = sc.nextDouble();
+                                                            amount = sc.nextDouble(); // the customer enters the amount he wants to withdraw, it has to be less or equal to the balance
                                                             if (b1.getCustomer(i).getAccount().withdraw(amount)) {
-                                                                System.out.println("You have successfully withdrew \" + amount + \"$ into your account");
+                                                                System.out.println("You have successfully withdrawn \" + amount + \"$ into your account");
                                                                 System.out.println("Your new balance is " + b1.getCustomer(i).getAccount().getBalance() + "$");
                                                             }
                                                             break;
@@ -228,7 +229,7 @@ public class test1 {
                                             System.out.println("Account does not exist");
                                         }
                                         break;
-                                    case 2:
+                                    case 2: // manage a BNI account
                                         for (int i = 0; i < b2.getNum0fCustomer(); i++) {
                                             if (b2.getCustomer(i).getFirstName().equals(capitalize(fn)) && b2.getCustomer(i).getLastName().equals(capitalize(ln))) {
                                                 found = true;
@@ -237,7 +238,7 @@ public class test1 {
                                                 int y = 2;
                                                 while (y > 0 && b2.getCustomer(i).getAccount().getPin() != the_pin) {
                                                     y--;
-                                                    System.out.print("The pin is incorrect, please reenter (" + (y+1) + " attempts remaining)");
+                                                    System.out.print("The pin is incorrect, please reenter (" + (y+1) + " attempts remaining): ");
                                                     the_pin = sc.nextInt();
                                                 }
                                                 if (y == 0) {
@@ -247,7 +248,7 @@ public class test1 {
                                                 if (b2.getCustomer(i).getAccount().getPin() == the_pin) {
                                                     int ch3;
                                                     System.out.println("Your balance is: " + b2.getCustomer(i).getAccount().getBalance() + "$");
-                                                    System.out.println("1. Deposit \n2. Withdraw \n3. Exit");
+                                                    System.out.println("1. Deposit \n2. Withdraw \n3. Go back");
                                                     System.out.print("Enter your choice: ");
                                                     ch3 = sc.nextInt();
                                                     double amount;
@@ -264,7 +265,7 @@ public class test1 {
                                                             System.out.print("Enter the amount you want to withdraw: ");
                                                             amount = sc.nextDouble();
                                                             if (b2.getCustomer(i).getAccount().withdraw(amount)) {
-                                                                System.out.println("You have successfully withdrew \" + amount + \"$ into your account");
+                                                                System.out.println("You have successfully withdrawn \" + amount + \"$ into your account");
                                                                 System.out.println("Your new balance is " + b2.getCustomer(i).getAccount().getBalance() + "$");
                                                             }
                                                             break;
@@ -281,7 +282,7 @@ public class test1 {
                                             System.out.println("Account does not exist");
                                         }
                                         break;
-                                    case 3:
+                                    case 3: // manage an MCB account
                                         for (int i = 0; i < b3.getNum0fCustomer(); i++) {
                                             if (b3.getCustomer(i).getFirstName().equals(capitalize(fn)) && b3.getCustomer(i).getLastName().equals(capitalize(ln))) {
                                                 found = true;
@@ -290,7 +291,7 @@ public class test1 {
                                                 int y = 2;
                                                 while (y > 0 && b3.getCustomer(i).getAccount().getPin() != the_pin) {
                                                     y--;
-                                                    System.out.print("The pin is incorrect, please reenter (" + (y+1) + " attempts remaining)");
+                                                    System.out.print("The pin is incorrect, please reenter (" + (y+1) + " attempts remaining): ");
                                                     the_pin = sc.nextInt();
                                                 }
                                                 if (y == 0) {
@@ -317,7 +318,7 @@ public class test1 {
                                                             System.out.print("Enter the amount you want to withdraw: ");
                                                             amount = sc.nextDouble();
                                                             if (b3.getCustomer(i).getAccount().withdraw(amount)) {
-                                                                System.out.println("You have successfully withdrew \" + amount + \"$ into your account");
+                                                                System.out.println("You have successfully withdrawn \" + amount + \"$ into your account");
                                                                 System.out.println("Your new balance is " + b3.getCustomer(i).getAccount().getBalance() + "$");
                                                             }
                                                             break;
@@ -345,7 +346,7 @@ public class test1 {
                                 for (int i = 0; i < banks.size(); i++) {
                                     System.out.println((i + 1) + ": " + banks.get(i));
                                 }
-                                System.out.println("4: Exit");
+                                System.out.println("4: Go back");
                                 System.out.print("Enter your choice: ");
                                 ch2 = sc.nextInt();
                                 System.out.print("Enter your first name: ");
@@ -354,7 +355,7 @@ public class test1 {
                                 ln = sc.next();
                                 found = false;
                                 switch (ch2) {
-                                    case 1:
+                                    case 1: //  delete a BCA account
                                         for (int i = 0; i < b1.getNum0fCustomer(); i++) {
                                             if (b1.getCustomer(i).getFirstName().equals(capitalize(fn)) && b1.getCustomer(i).getLastName().equals(capitalize(ln))) {
                                                 found = true;
@@ -363,23 +364,23 @@ public class test1 {
                                                 int y = 2;
                                                 while (y > 0 && b1.getCustomer(i).getAccount().getPin() != the_pin) {
                                                     y--;
-                                                    System.out.print("The pin is incorrect, please reenter (" + (y+1) + " attempts remaining)");
+                                                    System.out.print("The pin is incorrect, please reenter (" + (y+1) + " attempts remaining): ");
                                                     the_pin = sc.nextInt();
                                                 }
                                                 if (y == 0) {
-                                                    System.out.println("You entered the wrong pin 3 times");
+                                                    System.out.println("Failed! You entered the wrong pin 3 times");
                                                 }
                                                 if (b1.getCustomer(i).getAccount().getPin() == the_pin) {
                                                     String choice;
-                                                    System.out.print("Are you sure you want to delete your account? (Yes/No): ");
+                                                    System.out.print("Are you sure you want to delete your account? (Yes/No): "); // confirmation of deletion
                                                     choice = sc.next();
                                                     if (capitalize(choice).equals("Yes")) {
-                                                        if (b1.getCustomer(i).getAccount().getBalance() != 0) {
+                                                        if (b1.getCustomer(i).getAccount().getBalance() != 0) { // if there is money left in the account, ask the customer to withdraw
                                                             System.out.println("Your balance is " + b1.getCustomer(i).getAccount().getBalance() + "$" + "\nWould you like to withdraw all? (Yes/No): ");
                                                             choice = sc.next();
                                                             if (capitalize(choice).equals("Yes")) {
                                                                 if (b1.getCustomer(i).getAccount().withdraw(b1.getCustomer(i).getAccount().getBalance())){
-                                                                    System.out.println("You have successfully withdrew all your funds, your account will now be closed");
+                                                                    System.out.println("You have successfully withdrawn all your funds, your account will now be closed");
                                                                     if (b1.deleteCustomer(i)) {
                                                                         System.out.println("Account successfully closed");
                                                                         break;
@@ -408,7 +409,7 @@ public class test1 {
                                             System.out.println("Account does not exist");
                                         }
                                         break;
-                                    case 2:
+                                    case 2: // delete a BNI account
                                         for (int i = 0; i < b2.getNum0fCustomer(); i++) {
                                             if (b2.getCustomer(i).getFirstName().equals(capitalize(fn)) && b2.getCustomer(i).getLastName().equals(capitalize(ln))) {
                                                 found = true;
@@ -417,7 +418,7 @@ public class test1 {
                                                 int y = 2;
                                                 while (y > 0 && b2.getCustomer(i).getAccount().getPin() != the_pin) {
                                                     y--;
-                                                    System.out.print("The pin is incorrect, please reenter (" + (y+1) + " attempts remaining)");
+                                                    System.out.print("The pin is incorrect, please reenter (" + (y+1) + " attempts remaining): ");
                                                     the_pin = sc.nextInt();
                                                 }
                                                 if (y == 0) {
@@ -433,7 +434,7 @@ public class test1 {
                                                             choice = sc.next();
                                                             if (capitalize(choice).equals("Yes")) {
                                                                 if (b2.getCustomer(i).getAccount().withdraw(b2.getCustomer(i).getAccount().getBalance())){
-                                                                    System.out.println("You have successfully withdrew all your funds, your account will now be closed");
+                                                                    System.out.println("You have successfully withdrawn all your funds, your account will now be closed");
                                                                     if (b2.deleteCustomer(i)) {
                                                                         System.out.println("Account successfully closed");
                                                                         break;
@@ -462,7 +463,7 @@ public class test1 {
                                             System.out.println("Account does not exist");
                                         }
                                         break;
-                                    case 3:
+                                    case 3: // delete an MCB account
                                         for (int i = 0; i < b3.getNum0fCustomer(); i++) {
                                             if (b3.getCustomer(i).getFirstName().equals(capitalize(fn)) && b3.getCustomer(i).getLastName().equals(capitalize(ln))) {
                                                 found = true;
@@ -471,7 +472,7 @@ public class test1 {
                                                 int y = 2;
                                                 while (y > 0 && b3.getCustomer(i).getAccount().getPin() != the_pin) {
                                                     y--;
-                                                    System.out.print("The pin is incorrect, please reenter (" + (y+1) + " attempts remaining)");
+                                                    System.out.print("The pin is incorrect, please reenter (" + (y+1) + " attempts remaining): ");
                                                     the_pin = sc.nextInt();
                                                 }
                                                 if (y == 0) {
@@ -487,7 +488,7 @@ public class test1 {
                                                             choice = sc.next();
                                                             if (capitalize(choice).equals("Yes")) {
                                                                 if (b3.getCustomer(i).getAccount().withdraw(b3.getCustomer(i).getAccount().getBalance())){
-                                                                    System.out.println("You have successfully withdrew all your funds, your account will now be closed");
+                                                                    System.out.println("You have successfully withdrawn all your funds, your account will now be closed");
                                                                     if (b3.deleteCustomer(i)) {
                                                                         System.out.println("Account successfully closed");
                                                                         break;
@@ -521,7 +522,7 @@ public class test1 {
                     }
                     while (ch1 != 4);
                     break;
-                case 2:
+                case 2: // manager options
                     int code;
                     System.out.print("Enter the manager code: ");
                     code = sc.nextInt();
@@ -545,12 +546,12 @@ public class test1 {
                                 for (int i = 0; i < banks.size(); i++) {
                                     System.out.println((i + 1) + ": " + banks.get(i));
                                 }
-                                System.out.println("4: All \n5: Exit");
+                                System.out.println("4: All \n5: Go back");
                                 System.out.print("Enter your choice: ");
                                 ch1 = sc.nextInt();
 
                                 switch (ch1) {
-                                    case 1:
+                                    case 1: // check all accounts in BCA
                                         System.out.printf("%12s%12s%12s%12s%12s", "First Name", "|", "Last Name", "|", "Balance($)\n");
                                         System.out.printf("%s%n", "----------------------------------------------------------------------------------------------------------------");
 
@@ -559,7 +560,7 @@ public class test1 {
                                             System.out.println("\n");
                                         }
                                         break;
-                                    case 2:
+                                    case 2: // check all accounts in BNI
                                         System.out.printf("%12s%12s%12s%12s%12s", "First Name", "|", "Last Name", "|", "Balance($)\n");
                                         System.out.printf("%s%n", "----------------------------------------------------------------------------------------------------------------");
 
@@ -568,7 +569,7 @@ public class test1 {
                                             System.out.println("\n");
                                         }
                                         break;
-                                    case 3:
+                                    case 3: // check all accounts in MCB
                                         System.out.printf("%12s%12s%12s%12s%12s", "First Name", "|", "Last Name", "|", "Balance($)\n");
                                         System.out.printf("%s%n", "----------------------------------------------------------------------------------------------------------------");
 
@@ -601,7 +602,7 @@ public class test1 {
                                 for (int i = 0; i < banks.size(); i++) {
                                     System.out.println((i + 1) + ": " + banks.get(i));
                                 }
-                                System.out.println("4: Exit");
+                                System.out.println("4: Go back");
                                 System.out.print("Enter your choice: ");
                                 ch = sc.nextInt();
 
@@ -760,6 +761,7 @@ public class test1 {
                     }
                     break;
                 case 3:
+                    System.out.println("See you soon...");
                     break;
                 default:
                     System.out.println("Unexpected value: " + ch);
