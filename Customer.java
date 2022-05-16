@@ -1,4 +1,4 @@
-package Forum3;
+package OOP_Forum3;
 
 public class Customer {
     private final String firstName;

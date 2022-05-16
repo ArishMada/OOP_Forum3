@@ -1,4 +1,4 @@
-package Forum3;
+package OOP_Forum3;
 
 public class Account {
     private double balance;
